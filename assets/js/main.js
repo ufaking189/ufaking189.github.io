@@ -5,23 +5,27 @@ async function checkApisAndRedirect() {
     "https://ufaking2.la2.zapto.org/api"
   ];
 
-  for (let apiUrl of apiEndpoints) {
-    try {
-      const response = await fetch(apiUrl, { method: 'GET' });
+  // สร้าง Promise สำหรับแต่ละ API
+  const checks = apiEndpoints.map(apiUrl =>
+    fetch(apiUrl, { method: 'GET' })
+      .then(response => {
+        if (response.status === 200) {
+          // ถ้าตอบกลับ 200 OK -> คืน domain สำหรับ redirect
+          return apiUrl.replace('/api', '/');
+        } else {
+          throw new Error(`Non-200 response from ${apiUrl}`);
+        }
+      })
+  );
 
-      if (response.status === 200) {
-        // Extract domain from API URL
-        const targetDomain = apiUrl.replace('/api', '/');
-        window.location.href = targetDomain;
-        return;
-      }
-    } catch (error) {
-      console.warn(`Failed to reach ${apiUrl}:`, error);
-    }
+  try {
+    // รอให้หนึ่งใน API ตอบกลับสำเร็จ
+    const targetDomain = await Promise.any(checks);
+    window.location.href = targetDomain;
+  } catch (error) {
+    console.error("No API responded with 200 OK:", error);
   }
-
-  console.error("No API endpoints returned 200 OK.");
 }
 
-// Call on page load
+// เรียกใช้ฟังก์ชันตอนโหลดหน้า
 checkApisAndRedirect();
