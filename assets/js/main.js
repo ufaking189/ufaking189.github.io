@@ -1,8 +1,8 @@
 async function checkApisAndRedirect() {
   const apiEndpoints = [
-    "https://ufaking189.la.ddns.me/api",
-    "https://ufaking189.laos.ddns.net/api",
-    "https://ufaking2.la2.zapto.org/api"
+    "https://ufaking189.la.ddns.me/apix",
+    "https://ufaking189.laos.ddns.net/apix",
+    "https://ufaking2.la2.zapto.org/apix"
   ];
 
   // สร้าง Promise สำหรับแต่ละ API
@@ -24,8 +24,14 @@ async function checkApisAndRedirect() {
     window.location.href = targetDomain;
   } catch (error) {
     console.error("No API responded with 200 OK:", error);
+    openModal();
   }
 }
 
 // เรียกใช้ฟังก์ชันตอนโหลดหน้า
 checkApisAndRedirect();
+
+  function openModal() {
+    var myModal = new bootstrap.Modal(document.getElementById('modal-1'));
+    myModal.show();
+  }
