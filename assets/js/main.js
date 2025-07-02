@@ -1,8 +1,8 @@
 async function checkApisAndRedirect() {
   const apiEndpoints = [
-    "https://ufaking189.la.ddns.me/apix",
-    "https://ufaking189.laos.ddns.net/apix",
-    "https://ufaking2.la2.zapto.org/apix"
+    "https://ufaking189.la.ddns.me/api",
+    "https://ufaking189.laos.ddns.net/api",
+    "https://ufaking2.la2.zapto.org/api"
   ];
 
   // สร้าง Promise สำหรับแต่ละ API
